@@ -26,10 +26,13 @@ class OpenSubtitlesSource:
     def __init__(self, api_key: str):
         self.api_key = api_key
         self.session = requests.Session()
+        # OpenSubtitles 要求 Accept 头匹配,否则 /download 返回 406 Not Acceptable
+        # UA 格式需合规(官方建议 "AppName/Version")
         self.session.headers.update({
             "Api-Key": api_key,
+            "Accept": "application/json",
             "Content-Type": "application/json",
-            "User-Agent": "fnos-subtitle-bot v0.1",
+            "User-Agent": "fnos-subtitle-bot/0.1",
         })
 
     def search(self, query: str, is_tv: bool) -> list[SubtitleCandidate]:
