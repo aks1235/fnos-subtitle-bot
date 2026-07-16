@@ -1,0 +1,22 @@
+services:
+  subtitle-bot:
+    build: .
+    image: fnos-subtitle-bot:latest
+    container_name: fnos-subtitle-bot
+    restart: unless-stopped
+    environment:
+      # ===== 必填 =====
+      - BOT_TOKEN=                    # 字幕 Bot 的 Telegram Token（@BotFather 创建）
+      - OPENSUB_API_KEY=              # OpenSubtitles API Key（opensubtitles.com 注册）
+      # ===== 可选（有默认值）=====
+      - MEDIA_ROOT=/media/cloud       # 容器内媒体根路径
+      - BOT_ADMIN_ID=                 # 限制管理员 user_id，留空则所有人可用
+      - SUB_FORMAT_PREF=srt           # 优先字幕格式
+      - SUB_LANG_PREF=zh              # 优先语言
+      - ENABLE_SCRAPERS=1             # 启用 SubHD/Zimuku 爬虫 fallback
+      - LOG_LEVEL=INFO                # 日志级别
+    volumes:
+      # 左侧改成你的飞牛网盘挂载路径，右侧 /media/cloud 固定不动
+      - /vol02/1000-1-0519e45a:/media/cloud:rw
+      # 日志持久化到宿主
+      - ./logs:/logs:rw

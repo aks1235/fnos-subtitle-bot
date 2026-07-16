@@ -1,0 +1,6 @@
+# gitignore + venv 排除
+.venv
+__pycache__
+*.pyc
+.git
+logs
